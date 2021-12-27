@@ -10,12 +10,12 @@ public class RoverTest
         HashSet<Position> obstacles = new HashSet<Position>() { new Position(1, 1), new Position(4, 3) };
         World world = new World(10, obstacles);
         Rover rover = new Rover(world, startPosition, startDirection);
+        Console.Write(world);
 
-        rover.DoCommands(command);
-        Assert.Equal(endPosition, rover.position);
-        Assert.Equal(endDirection, rover.direction);
+        // rover.DoCommands(command);
+        // Assert.Equal(endPosition, rover.position);
+        // Assert.Equal(endDirection, rover.direction);
     }
-
 
 
     public class RoverDoCommandsTestData : IEnumerable<object[]>
@@ -54,7 +54,7 @@ public class RoverTest
 
             // obstacle 
             // endPosition is not (1,1) because there is an obstacle in (1,1)
-            yield return new object[] { new Position(0, 0), Directions.N, "FRF", new Position(0, 1), Directions.E }; 
+            yield return new object[] { new Position(0, 0), Directions.N, "FRF", new Position(0, 1), Directions.E };
 
 
 

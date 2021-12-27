@@ -1,4 +1,4 @@
-public class Position
+public class Position : IEquatable<Position>
 {
     public int x;
     public int y;
@@ -16,16 +16,6 @@ public class Position
         this.y = position.y;
     }
 
-    public override bool Equals(object? obj)
-    {
-        if (obj == null)
-            return false;
-        if (obj.GetType() != typeof(Position))
-            return false;
-
-        return (((Position)obj).x == x && ((Position)obj).y == y);
-    }
-
     public override int GetHashCode()
     {
         return HashCode.Combine(x, y);
@@ -35,4 +25,29 @@ public class Position
     {
         return "(" + x + ", " + y + ")";
     }
+
+    public override bool Equals(object obj) => this.Equals(obj as Position);
+
+    public bool Equals(Position other)
+    {
+        if (other.GetType() != typeof(Position))
+            return false;
+        bool eq = (((Position)other).x == x && ((Position)other).y == y);
+        return eq;
+    }
+    public static bool operator ==(Position lhs, Position rhs)
+    {
+        if (lhs is null)
+        {
+            if (rhs is null)
+            {
+                return true;
+            }
+
+            return false;
+        }
+        return lhs.Equals(rhs);
+    }
+
+    public static bool operator !=(Position lhs, Position rhs) => !(lhs == rhs);
 }

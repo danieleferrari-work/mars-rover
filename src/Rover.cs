@@ -1,6 +1,5 @@
 public class Rover
 {
-
     public Position position
     {
         get;
@@ -14,8 +13,6 @@ public class Rover
     }
 
     private World landingWorld;
-
-
 
 
     #region PUBLIC METHODS
@@ -33,7 +30,7 @@ public class Rover
         Console.WriteLine("\nDoCommands [" + commands + "]");
         try
         {
-            foreach (char c in commands)
+            foreach (char c in commands.ToUpper())
             {
                 if (c == 'F')
                     MoveForward();
