@@ -21,10 +21,28 @@ public class World
         return obstacles.Any(p => p == position);
     }
 
-    public int IndexOfPosition(Position position)
+    public Position GetCorrectPosition(Position position)
     {
-        return position.y * density + position.x;
+        Position correctPosition = new Position(position);
+
+        if (correctPosition.x < 0)
+            correctPosition.x = density + position.x;
+        if (correctPosition.y < 0)
+            correctPosition.y = density + position.y;
+        if (correctPosition.x > density - 1)
+            correctPosition.x = correctPosition.x - density;
+        if (correctPosition.y > density - 1)
+            correctPosition.y = correctPosition.y - density;
+
+        // Console.WriteLine(position + "->" + correctPosition);
+
+        return correctPosition;
     }
+
+    // public int IndexOfPosition(Position position)
+    // {
+    //     return position.y * density + position.x;
+    // }
 
     // public Position PositionOfIndex(int index)
     // {
@@ -43,7 +61,7 @@ public class World
 
         string res = separatorString;
 
-        for (int y = density-1; y >= 0; y--)
+        for (int y = density - 1; y >= 0; y--)
             for (int x = 0; x < density; x++)
             {
                 Position position = new Position(x, y);

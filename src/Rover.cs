@@ -21,7 +21,7 @@ public class Rover
     public Rover(World landingWorld, Position startPosition, Directions startDirection)
     {
         this.landingWorld = landingWorld;
-        this.position = startPosition;
+        this.position = landingWorld.GetCorrectPosition(startPosition);
         this.direction = startDirection;
     }
 
@@ -46,7 +46,7 @@ public class Rover
         }
         catch (ObstructedPathException ex)
         {
-            Console.WriteLine("!!! obstructed path");
+            Console.WriteLine("STOP, path is obstructed");
         }
     }
 
@@ -83,7 +83,7 @@ public class Rover
         if (landingWorld.IsObstructed(newPosition))
             throw new ObstructedPathException();
         else
-            position = newPosition;
+            position = landingWorld.GetCorrectPosition(newPosition);
     }
 
     private void TurnLeft()
