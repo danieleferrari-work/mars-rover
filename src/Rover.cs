@@ -57,13 +57,13 @@ public class Rover
     public void MoveForward()
     {
         Move(forward: true);
-        Console.WriteLine("MoveForward " + position);
+        Console.WriteLine("MoveForward \t> " + position);
     }
 
     private void MoveBackward()
     {
         Move(forward: false);
-        Console.WriteLine("MoveBackward " + position);
+        Console.WriteLine("MoveBackward \t> " + position);
     }
 
     private void Move(bool forward)
@@ -89,13 +89,13 @@ public class Rover
     private void TurnLeft()
     {
         Turn(clockswise: false);
-        Console.WriteLine("TurnLeft " + direction);
+        Console.WriteLine("TurnLeft \t> " + direction);
     }
 
     private void TurnRight()
     {
         Turn(clockswise: true);
-        Console.WriteLine("TurnRight " + direction);
+        Console.WriteLine("TurnRight \t> " + direction);
     }
 
     private void Turn(bool clockswise)

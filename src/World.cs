@@ -26,34 +26,48 @@ public class World
         return position.y * density + position.x;
     }
 
-    public Position PositionOfIndex(int index)
-    {
-        int x = index % density;
-        int y = index / density;
-        // Console.WriteLine(index + " => " + x + "  " + y);
-        return new Position(x, y);
-    }
+    // public Position PositionOfIndex(int index)
+    // {
+    //     int x = index % density;
+    //     int y = index / density;
+    //     // Console.WriteLine(index + " => " + x + "  " + y);
+    //     return new Position(x, y);
+    // }
 
-    public override string ToString()
+    public void PrintStatus(Rover rover)
     {
         string separatorString = "";
         for (int i = 0; i < density; i++)
             separatorString += "-";
-        separatorString+= "\n";
+        separatorString += "\n";
 
         string res = separatorString;
 
-        for (int i = 0; i < Math.Pow(density, 2); i++)
-        {
-            if (IsObstructed(PositionOfIndex(i)))
-                res += "x";
-            else
-                res += "□";
-            if ((i + 1) % density == 0)
-                res += "\n";
-        }
+        for (int y = density-1; y >= 0; y--)
+            for (int x = 0; x < density; x++)
+            {
+                Position position = new Position(x, y);
+                if (IsObstructed(position)) // obstacle position
+                    res += "x";
+                else if (rover.position == position) // rover position
+                {
+                    if (rover.direction == Directions.N)
+                        res += "^";
+                    else if (rover.direction == Directions.E)
+                        res += ">";
+                    else if (rover.direction == Directions.S)
+                        res += "v";
+                    else
+                        res += "<";
+                }
+                else // empty position
+                    res += "□";
+
+                if (x == density - 1)
+                    res += "\n";
+            }
 
         res += separatorString;
-        return res;
+        Console.Write(res);
     }
 }

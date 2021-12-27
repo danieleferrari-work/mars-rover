@@ -8,13 +8,17 @@ public class RoverTest
     public void TestCommands(Position startPosition, Directions startDirection, string command, Position endPosition, Directions endDirection)
     {
         HashSet<Position> obstacles = new HashSet<Position>() { new Position(1, 1), new Position(4, 3) };
-        World world = new World(10, obstacles);
+        World world = new World(5, obstacles);
         Rover rover = new Rover(world, startPosition, startDirection);
-        Console.Write(world);
+        Console.WriteLine("START: " + startPosition + " " + startDirection);
+        world.PrintStatus(rover);
 
-        // rover.DoCommands(command);
-        // Assert.Equal(endPosition, rover.position);
-        // Assert.Equal(endDirection, rover.direction);
+        rover.DoCommands(command);
+        Assert.Equal(endPosition, rover.position);
+        Assert.Equal(endDirection, rover.direction);
+
+        world.PrintStatus(rover);
+        Console.WriteLine("END: " + rover.position + " " +rover.direction + "\n");
     }
 
 
