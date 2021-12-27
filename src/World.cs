@@ -1,4 +1,3 @@
-using System.Linq;
 public class World
 {
     private int density;
@@ -21,36 +20,21 @@ public class World
         return obstacles.Any(p => p == position);
     }
 
-    public Position GetCorrectPosition(Position position)
+    public Position GetCorrectPosition(Position rawPosition)
     {
-        Position correctPosition = new Position(position.x % density, position.y % density);
+        Position correctPosition = new Position(rawPosition.x % density, rawPosition.y % density);
 
         if (correctPosition.x < 0)
-            correctPosition.x = density + position.x;
+            correctPosition.x = density + correctPosition.x;
         if (correctPosition.y < 0)
-            correctPosition.y = density + position.y;
+            correctPosition.y = density + correctPosition.y;
         if (correctPosition.x > density - 1)
             correctPosition.x = correctPosition.x - density;
         if (correctPosition.y > density - 1)
             correctPosition.y = correctPosition.y - density;
 
-        // Console.WriteLine(position + "->" + correctPosition);
-
         return correctPosition;
     }
-
-    // public int IndexOfPosition(Position position)
-    // {
-    //     return position.y * density + position.x;
-    // }
-
-    // public Position PositionOfIndex(int index)
-    // {
-    //     int x = index % density;
-    //     int y = index / density;
-    //     // Console.WriteLine(index + " => " + x + "  " + y);
-    //     return new Position(x, y);
-    // }
 
     public void PrintStatus(Rover rover)
     {
