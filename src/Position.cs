@@ -1,4 +1,4 @@
-public class Position : IEquatable<Position>
+public record struct Position
 {
     public int x;
     public int y;
@@ -25,31 +25,4 @@ public class Position : IEquatable<Position>
     {
         return "(" + x + ", " + y + ")";
     }
-
-    public override bool Equals(object? obj) => this.Equals(obj as Position);
-
-    public bool Equals(Position? other)
-    {
-        if (other == null)
-            return false;
-        if (other.GetType() != typeof(Position))
-            return false;
-        bool eq = (((Position)other).x == x && ((Position)other).y == y);
-        return eq;
-    }
-    public static bool operator ==(Position? lhs, Position? rhs)
-    {
-        if (lhs is null)
-        {
-            if (rhs is null)
-            {
-                return true;
-            }
-
-            return false;
-        }
-        return lhs.Equals(rhs);
-    }
-
-    public static bool operator !=(Position lhs, Position rhs) => !(lhs == rhs);
 }
