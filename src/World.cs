@@ -23,7 +23,7 @@ public class World
 
     public Position GetCorrectPosition(Position position)
     {
-        Position correctPosition = new Position(position);
+        Position correctPosition = new Position(position.x % density, position.y % density);
 
         if (correctPosition.x < 0)
             correctPosition.x = density + position.x;

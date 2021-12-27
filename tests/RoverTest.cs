@@ -10,6 +10,7 @@ public class RoverTest
         HashSet<Position> obstacles = new HashSet<Position>() { new Position(1, 1), new Position(4, 3) };
         World world = new World(5, obstacles);
         Rover rover = new Rover(world, startPosition, startDirection);
+        
         Console.WriteLine("START: " + startPosition + " " + startDirection);
         world.PrintStatus(rover);
 
