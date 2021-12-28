@@ -1,23 +1,4 @@
-public record Position
+public record struct Position(int x, int y)
 {
-    public int x;
-    public int y;
-
-
-    public Position(int x, int y)
-    {
-        this.x = x;
-        this.y = y;
-    }
-
-    public Position(Position position)
-    {
-        this.x = position.x;
-        this.y = position.y;
-    }
-
-    public override string ToString()
-    {
-        return "(" + x + ", " + y + ")";
-    }
+    public Position(Position position) : this(position.x, position.y) { }
 }
