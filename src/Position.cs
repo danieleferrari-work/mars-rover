@@ -1,4 +1,4 @@
-public record struct Position
+public record Position
 {
     public int x;
     public int y;
@@ -14,11 +14,6 @@ public record struct Position
     {
         this.x = position.x;
         this.y = position.y;
-    }
-
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(x, y);
     }
 
     public override string ToString()
