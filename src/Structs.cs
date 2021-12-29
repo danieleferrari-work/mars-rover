@@ -23,7 +23,7 @@ public record struct Obstacle(string name)
     public Obstacle(Obstacle obstacle) : this(obstacle.name) { }
 }
 
-public record struct CommandData(
+public record CommandData(
     bool isValid,
     Position moveFrom,
     Position moveTo,
