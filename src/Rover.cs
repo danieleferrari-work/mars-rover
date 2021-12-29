@@ -1,18 +1,9 @@
 public class Rover
 {
-    public Position position
-    {
-        get;
-        private set;
-    }
+    public Position position { get; private set; }
+    public Directions direction { get; private set; }
 
-    public Directions direction
-    {
-        get;
-        private set;
-    }
-
-    private Planet landingWorld;
+    private Planet _landingWorld;
 
 
     #region PUBLIC METHODS
@@ -20,21 +11,22 @@ public class Rover
 
     public Rover(Planet landingWorld, Position startPosition, Directions startDirection)
     {
-        this.landingWorld = landingWorld;
+        this._landingWorld = landingWorld;
         this.position = landingWorld.GetCorrectPosition(startPosition);
         this.direction = startDirection;
     }
 
     public void DoCommands(string commands)
     {
-        Console.WriteLine("\nDoCommands [" + commands + "]");
+        Console.WriteLine("\nDoCommands [" + commands.ToUpper() + "]");
+
         CommandData? commandData = null;
 
         foreach (char c in commands.ToLower())
         {
             try
             {
-                commandData = DoCommand(c);
+                commandData = DoCommand(c.ToString());
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -50,12 +42,12 @@ public class Rover
         }
     }
 
-    private CommandData DoCommand(char command) => command switch
+    private CommandData DoCommand(string command) => command switch
     {
-        'f' => Move(forward: true),
-        'b' => Move(forward: false),
-        'r' => Turn(clockwise: true),
-        'l' => Turn(clockwise: false),
+        Constants.C_FORWARD => Move(forward: true),
+        Constants.C_BACKWARD => Move(forward: false),
+        Constants.C_RIGHT => Turn(clockwise: true),
+        Constants.C_LEFT => Turn(clockwise: false),
 
         _ => throw new ArgumentOutOfRangeException(nameof(command),
             $"Not expected command value: {command}"),
@@ -70,11 +62,11 @@ public class Rover
     private CommandData Move(bool forward)
     {
         Position newPosition = position.Move(direction, forward);
-        newPosition = landingWorld.GetCorrectPosition(newPosition);
+        newPosition = _landingWorld.GetCorrectPosition(newPosition);
 
         CommandData moveData;
 
-        if (landingWorld.IsObstructed(newPosition))
+        if (_landingWorld.IsObstructed(newPosition))
         {
             moveData = new CommandData(
                 false,
@@ -82,7 +74,7 @@ public class Rover
                 newPosition,
                 direction,
                 direction,
-                landingWorld.GetObstacleAt(newPosition));
+                _landingWorld.GetObstacleAt(newPosition));
         }
         else
         {

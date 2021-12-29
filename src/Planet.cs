@@ -2,7 +2,7 @@ public class Planet
 {
     public string name { get; private set; }
     public int size { get; private set; }
-    private Dictionary<Position, Obstacle> obstacles = new Dictionary<Position, Obstacle>();
+    private Dictionary<Position, Obstacle> _obstacles = new Dictionary<Position, Obstacle>();
 
     public Planet(string name, int density)
     {
@@ -14,19 +14,19 @@ public class Planet
     {
         this.name = name;
         this.size = density;
-        this.obstacles = new Dictionary<Position, Obstacle>(obstacles);
+        this._obstacles = new Dictionary<Position, Obstacle>(obstacles);
     }
 
     public bool IsObstructed(Position position)
     {
-        return obstacles.ContainsKey(position);
+        return _obstacles.ContainsKey(position);
     }
 
     public Obstacle? GetObstacleAt(Position position)
     {
-        if (!obstacles.ContainsKey(position))
+        if (!_obstacles.ContainsKey(position))
             return null;
-        return obstacles[position];
+        return _obstacles[position];
     }
 
     public Position GetCorrectPosition(Position rawPosition)
@@ -53,7 +53,7 @@ public class Planet
         separatorString += "\n";
 
         string res = separatorString;
-
+    
         for (int y = size - 1; y >= 0; y--)
             for (int x = 0; x < size; x++)
             {

@@ -31,55 +31,88 @@ public class RoverTest
         public IEnumerator<object[]> GetEnumerator()
         {
             // simple move forward and backward
-            yield return new object[] { new Position(0, 0), Directions.N, "F", new Position(0, 1), Directions.N };
-            yield return new object[] { new Position(0, 0), Directions.N, "B", new Position(0, 4), Directions.N };
-            yield return new object[] { new Position(1, 3), Directions.N, "B", new Position(1, 2), Directions.N };
-            yield return new object[] { new Position(3, -1), Directions.N, "F", new Position(3, 0), Directions.N };
+            yield return new object[]
+                { new Position(0, 0), Directions.N, Constants.C_FORWARD, new Position(0, 1), Directions.N };
+            yield return new object[]
+                { new Position(0, 0), Directions.N, Constants.C_BACKWARD, new Position(0, 4), Directions.N };
+            yield return new object[]
+                { new Position(1, 3), Directions.N, Constants.C_BACKWARD, new Position(1, 2), Directions.N };
+            yield return new object[]
+                { new Position(3, -1), Directions.N, Constants.C_FORWARD, new Position(3, 0), Directions.N };
 
             // simple rotations
-            yield return new object[] { new Position(0, 0), Directions.N, "L", new Position(0, 0), Directions.W };
-            yield return new object[] { new Position(0, 0), Directions.N, "R", new Position(0, 0), Directions.E };
-            yield return new object[] { new Position(0, 0), Directions.W, "R", new Position(0, 0), Directions.N };
-            
+            yield return new object[]
+                { new Position(0, 0), Directions.N, Constants.C_LEFT, new Position(0, 0), Directions.W };
+            yield return new object[]
+                { new Position(0, 0), Directions.N, Constants.C_RIGHT, new Position(0, 0), Directions.E };
+            yield return new object[]
+                { new Position(0, 0), Directions.W, Constants.C_RIGHT, new Position(0, 0), Directions.N };
 
             // multi move forward/backward
-            yield return new object[] { new Position(0, 0), Directions.N, "FF", new Position(0, 2), Directions.N };
-            yield return new object[] { new Position(0, 0), Directions.N, "BB", new Position(0, 3), Directions.N };
-            yield return new object[] { new Position(0, 0), Directions.N, "BF", new Position(0, 0), Directions.N };
-            yield return new object[] { new Position(0, 0), Directions.N, "FBF", new Position(0, 1), Directions.N };
+            yield return new object[]
+                { new Position(0, 0), Directions.N, Constants.C_FORWARD + Constants.C_FORWARD, new Position(0, 2), Directions.N };
+            yield return new object[]
+                { new Position(0, 0), Directions.N, Constants.C_BACKWARD + Constants.C_BACKWARD, new Position(0, 3), Directions.N };
+            yield return new object[]
+                { new Position(0, 0), Directions.N, Constants.C_BACKWARD + Constants.C_FORWARD, new Position(0, 0), Directions.N };
+            yield return new object[]
+                { new Position(0, 0), Directions.N, Constants.C_FORWARD + Constants.C_BACKWARD + Constants.C_FORWARD, new Position(0, 1), Directions.N };
 
             // multi rotations
-            yield return new object[] { new Position(0, 0), Directions.N, "LL", new Position(0, 0), Directions.S };
-            yield return new object[] { new Position(0, 0), Directions.N, "RR", new Position(0, 0), Directions.S };
-            yield return new object[] { new Position(0, 0), Directions.N, "LR", new Position(0, 0), Directions.N };
-            yield return new object[] { new Position(0, 0), Directions.W, "LR", new Position(0, 0), Directions.W };
-            yield return new object[] { new Position(0, 0), Directions.W, "LLR", new Position(0, 0), Directions.S };
-            yield return new object[] { new Position(0, 0), Directions.S, "LLLL", new Position(0, 0), Directions.S };
+            yield return new object[] {
+                     new Position(0, 0), Directions.N, Constants.C_LEFT + Constants.C_LEFT, new Position(0, 0), Directions.S };
+            yield return new object[]
+                { new Position(0, 0), Directions.N, Constants.C_RIGHT + Constants.C_RIGHT, new Position(0, 0), Directions.S };
+            yield return new object[]
+                { new Position(0, 0), Directions.N, Constants.C_LEFT + Constants.C_RIGHT, new Position(0, 0), Directions.N };
+            yield return new object[]
+                { new Position(0, 0), Directions.W, Constants.C_LEFT + Constants.C_RIGHT, new Position(0, 0), Directions.W };
+            yield return new object[]
+                { new Position(0, 0), Directions.W, Constants.C_LEFT + Constants.C_LEFT + Constants.C_RIGHT, new Position(0, 0), Directions.S };
+            yield return new object[]
+                { new Position(0, 0), Directions.S, Constants.C_LEFT + Constants.C_LEFT + Constants.C_LEFT + Constants.C_LEFT, new Position(0, 0), Directions.S };
 
             // multi rotation and move
-            yield return new object[] { new Position(0, 0), Directions.N, "LF", new Position(4, 0), Directions.W };
-            yield return new object[] { new Position(0, 0), Directions.N, "RF", new Position(1, 0), Directions.E };
-            yield return new object[] { new Position(0, 0), Directions.N, "RFRFRF", new Position(0, 4), Directions.W };
-            yield return new object[] { new Position(0, 0), Directions.N, "LFLL", new Position(4, 0), Directions.E };
-            yield return new object[] { new Position(0, 0), Directions.N, "LFLRF", new Position(3, 0), Directions.W };
+            yield return new object[]
+                { new Position(0, 0), Directions.N, Constants.C_LEFT + Constants.C_FORWARD, new Position(4, 0), Directions.W };
+            yield return new object[]
+                { new Position(0, 0), Directions.N, Constants.C_RIGHT + Constants.C_FORWARD, new Position(1, 0), Directions.E };
+            yield return new object[]
+                { new Position(0, 0), Directions.N, Constants.C_RIGHT + Constants.C_FORWARD + Constants.C_RIGHT + Constants.C_FORWARD + Constants.C_RIGHT + Constants.C_FORWARD, new Position(0, 4), Directions.W };
+            yield return new object[]
+                { new Position(0, 0), Directions.N, Constants.C_LEFT + Constants.C_FORWARD + Constants.C_LEFT + Constants.C_LEFT, new Position(4, 0), Directions.E };
+            yield return new object[]
+                { new Position(0, 0), Directions.N, Constants.C_LEFT + Constants.C_FORWARD + Constants.C_LEFT + Constants.C_RIGHT + Constants.C_FORWARD, new Position(3, 0), Directions.W };
 
             // spherical world
-            yield return new object[] { new Position(3, 3), Directions.N, "FFFFFFFFFFFFFFF", new Position(3, 3), Directions.N };
-            yield return new object[] { new Position(3, 2), Directions.E, "FFFFFFFFFFFFFFF", new Position(3, 2), Directions.E };
-            yield return new object[] { new Position(3, 2), Directions.E, "BBBBBBBBBBBBBBB", new Position(3, 2), Directions.E };
+            yield return new object[]
+                { new Position(3, 3), Directions.N, Constants.C_FORWARD + Constants.C_FORWARD + Constants.C_FORWARD + Constants.C_FORWARD + Constants.C_FORWARD + Constants.C_FORWARD + Constants.C_FORWARD + Constants.C_FORWARD + Constants.C_FORWARD + Constants.C_FORWARD + Constants.C_FORWARD + Constants.C_FORWARD + Constants.C_FORWARD + Constants.C_FORWARD + Constants.C_FORWARD, new Position(3, 3), Directions.N };
+            yield return new object[]
+                { new Position(3, 2), Directions.E, Constants.C_FORWARD + Constants.C_FORWARD + Constants.C_FORWARD + Constants.C_FORWARD + Constants.C_FORWARD + Constants.C_FORWARD + Constants.C_FORWARD + Constants.C_FORWARD + Constants.C_FORWARD + Constants.C_FORWARD + Constants.C_FORWARD + Constants.C_FORWARD + Constants.C_FORWARD + Constants.C_FORWARD + Constants.C_FORWARD, new Position(3, 2), Directions.E };
+            yield return new object[]
+                { new Position(3, 2), Directions.E, Constants.C_BACKWARD + Constants.C_BACKWARD + Constants.C_BACKWARD + Constants.C_BACKWARD + Constants.C_BACKWARD + Constants.C_BACKWARD + Constants.C_BACKWARD + Constants.C_BACKWARD + Constants.C_BACKWARD + Constants.C_BACKWARD + Constants.C_BACKWARD + Constants.C_BACKWARD + Constants.C_BACKWARD + Constants.C_BACKWARD + Constants.C_BACKWARD, new Position(3, 2), Directions.E };
 
             // obstacles
-            yield return new object[] { new Position(0, 0), Directions.N, "FRF", new Position(0, 1), Directions.E };
-            yield return new object[] { new Position(1, 3), Directions.N, "BB", new Position(1, 2), Directions.N };
-            yield return new object[] { new Position(3, 3), Directions.W, "FFFF", new Position(0, 3), Directions.W };
-            yield return new object[] { new Position(3, 3), Directions.W, "FFFFFRRFFFFF", new Position(0, 3), Directions.W };
-            yield return new object[] { new Position(3, 3), Directions.W, "FFFRRB", new Position(0, 3), Directions.E };
-            yield return new object[] { new Position(3, 3), Directions.W, "FFFRRFFFFF", new Position(3, 3), Directions.E };
+            yield return new object[]
+                { new Position(0, 0), Directions.N, Constants.C_FORWARD + Constants.C_RIGHT + Constants.C_FORWARD, new Position(0, 1), Directions.E };
+            yield return new object[]
+                { new Position(1, 3), Directions.N, Constants.C_BACKWARD + Constants.C_BACKWARD, new Position(1, 2), Directions.N };
+            yield return new object[]
+                { new Position(3, 3), Directions.W, Constants.C_FORWARD + Constants.C_FORWARD + Constants.C_FORWARD + Constants.C_FORWARD, new Position(0, 3), Directions.W };
+            yield return new object[]
+                { new Position(3, 3), Directions.W, Constants.C_FORWARD + Constants.C_FORWARD + Constants.C_FORWARD + Constants.C_FORWARD + Constants.C_FORWARD + Constants.C_RIGHT + Constants.C_RIGHT + Constants.C_FORWARD + Constants.C_FORWARD + Constants.C_FORWARD + Constants.C_FORWARD + Constants.C_FORWARD, new Position(0, 3), Directions.W };
+            yield return new object[]
+                { new Position(3, 3), Directions.W, Constants.C_FORWARD + Constants.C_FORWARD + Constants.C_FORWARD + Constants.C_RIGHT + Constants.C_RIGHT + Constants.C_BACKWARD, new Position(0, 3), Directions.E };
+            yield return new object[]
+                { new Position(3, 3), Directions.W, Constants.C_FORWARD + Constants.C_FORWARD + Constants.C_FORWARD + Constants.C_RIGHT + Constants.C_RIGHT + Constants.C_FORWARD + Constants.C_FORWARD + Constants.C_FORWARD + Constants.C_FORWARD + Constants.C_FORWARD, new Position(3, 3), Directions.E };
 
             // wrong commands
-            yield return new object[] { new Position(0, 0), Directions.N, "X", new Position(0, 0), Directions.N };
-            yield return new object[] { new Position(0, 0), Directions.N, "FX", new Position(0, 1), Directions.N };
-            yield return new object[] { new Position(0, 0), Directions.N, "RX", new Position(0, 0), Directions.E };
+            yield return new object[]
+                { new Position(0, 0), Directions.N, "x", new Position(0, 0), Directions.N };
+            yield return new object[]
+                { new Position(0, 0), Directions.N, Constants.C_FORWARD + "2", new Position(0, 1), Directions.N };
+            yield return new object[]
+                { new Position(0, 0), Directions.N, Constants.C_RIGHT + "p", new Position(0, 0), Directions.E };
 
         }
 
