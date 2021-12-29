@@ -7,7 +7,7 @@ public class PositionTest
     [ClassData(typeof(PositionTestData))]
     public void TestIndexConversion(int worldSize, Position rawPosition, Position expectedPosition)
     {
-        World world = new World(worldSize);
+        Planet world = new Planet("mars", worldSize);
 
         Assert.Equal(expectedPosition, world.GetCorrectPosition(rawPosition));
     }

@@ -12,13 +12,13 @@ public class Rover
         private set;
     }
 
-    private World landingWorld;
+    private Planet landingWorld;
 
 
     #region PUBLIC METHODS
 
 
-    public Rover(World landingWorld, Position startPosition, Directions startDirection)
+    public Rover(Planet landingWorld, Position startPosition, Directions startDirection)
     {
         this.landingWorld = landingWorld;
         this.position = landingWorld.GetCorrectPosition(startPosition);
@@ -28,89 +28,95 @@ public class Rover
     public void DoCommands(string commands)
     {
         Console.WriteLine("\nDoCommands [" + commands + "]");
-        try
+        CommandData? commandData = null;
+
+        foreach (char c in commands.ToLower())
         {
-            foreach (char c in commands.ToUpper())
+            try
             {
-                if (c == 'F')
-                    MoveForward();
-                else if (c == 'B')
-                    MoveBackward();
-                else if (c == 'L')
-                    TurnLeft();
-                else if (c == 'R')
-                    TurnRight();
-                else
-                    Console.WriteLine("command not found: " + c);
+                commandData = DoCommand(c);
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            if (commandData != null && !commandData.isValid)
+            {
+                if (commandData.obstacle.HasValue)
+                    Console.WriteLine(commandData.obstacle.Value + " at " + commandData.moveTo);
+                break;
             }
         }
-        catch (ObstructedPathException ex)
-        {
-            Console.WriteLine("STOP, path is obstructed");
-        }
     }
+
+    private CommandData DoCommand(char command) => command switch
+    {
+        'f' => Move(forward: true),
+        'b' => Move(forward: false),
+        'r' => Turn(clockwise: true),
+        'l' => Turn(clockwise: false),
+
+        _ => throw new ArgumentOutOfRangeException(nameof(command),
+            $"Not expected command value: {command}"),
+    };
+
 
     #endregion PUBLIC METHODS
 
+
     #region PRIVATE METHODS
 
-    public void MoveForward()
+    private CommandData Move(bool forward)
     {
-        Move(forward: true);
-        Console.WriteLine("MoveForward \t> " + position);
-    }
+        Position newPosition = position.Move(direction, forward);
+        newPosition = landingWorld.GetCorrectPosition(newPosition);
 
-    private void MoveBackward()
-    {
-        Move(forward: false);
-        Console.WriteLine("MoveBackward \t> " + position);
-    }
-
-    private void Move(bool forward)
-    {
-        int moveIntensity = forward ? 1 : -1;
-        Position newPosition = new Position(position);
-
-        if (direction == Directions.N)
-            newPosition.y += moveIntensity;
-        else if (direction == Directions.E)
-            newPosition.x += moveIntensity;
-        else if (direction == Directions.S)
-            newPosition.y -= moveIntensity;
-        else if (direction == Directions.W)
-            newPosition.x -= moveIntensity;
+        CommandData moveData;
 
         if (landingWorld.IsObstructed(newPosition))
-            throw new ObstructedPathException();
+        {
+            moveData = new CommandData(
+                false,
+                position,
+                newPosition,
+                direction,
+                direction,
+                landingWorld.GetObstacleAt(newPosition));
+        }
         else
-            position = landingWorld.GetCorrectPosition(newPosition);
+        {
+            moveData = new CommandData(
+                true,
+                position,
+                newPosition,
+                direction,
+                direction
+            );
+
+            position = newPosition;
+            Console.WriteLine((forward ? "MoveForward\t> " : "MoveBackward\t> ") + position);
+        }
+
+        return moveData;
     }
 
-    private void TurnLeft()
+    private CommandData Turn(bool clockwise)
     {
-        Turn(clockswise: false);
-        Console.WriteLine("TurnLeft \t> " + direction);
-    }
+        Directions newDirection = Utils.Turn(direction, clockwise);
 
-    private void TurnRight()
-    {
-        Turn(clockswise: true);
-        Console.WriteLine("TurnRight \t> " + direction);
-    }
+        CommandData moveData = new CommandData(
+            true,
+            position,
+            position,
+            direction,
+            newDirection
+        );
 
-    private void Turn(bool clockswise)
-    {
-        int directionsCount = 4;
-        int rotation = clockswise ? 1 : -1;
-        int directionIndex = (int)direction;
-        int newDirectionIndex = directionIndex + rotation;
+        direction = moveData.directionTo;
+        Console.WriteLine((clockwise ? "TurnRight\t> " : "TurnLeft\t> ") + direction);
 
-        if (newDirectionIndex < 0)
-            newDirectionIndex = directionsCount + (newDirectionIndex % directionsCount);
-        else
-            newDirectionIndex = newDirectionIndex % directionsCount;
-
-        direction = (Directions)(newDirectionIndex);
+        return moveData;
     }
 
     #endregion PRIVATE METHODS
