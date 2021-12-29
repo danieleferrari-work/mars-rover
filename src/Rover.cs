@@ -36,7 +36,7 @@ public class Rover
             if (commandData != null && !commandData.isValid)
             {
                 if (commandData.obstacle.HasValue)
-                    Console.WriteLine(commandData.obstacle.Value + " at " + commandData.moveTo);
+                    Console.WriteLine("Rover STOPPED: " + commandData.obstacle.Value + " at " + commandData.moveTo);
                 break;
             }
         }

@@ -3,10 +3,13 @@ public class Program
     public static void Main(string[] args)
     {
         Dictionary<Position, Obstacle> obstacles = new Dictionary<Position, Obstacle>() {
-            { new Position(1,1), new Obstacle("rock") },
-            { new Position(4,3), new Obstacle("water") }
+            { new Position(3,1), new Obstacle("rock") },
+            { new Position(4,3), new Obstacle("water") },
+            { new Position(3,3), new Obstacle("water") },
+            { new Position(2,3), new Obstacle("water") },
+            { new Position(1,0), new Obstacle("alien") },
         };
-        Planet planet = new Planet("mars", 10, obstacles);
+        Planet planet = new Planet("mars", 5, obstacles);
         Rover rover = new Rover(planet, new Position(0, 0), Directions.N);
 
         Console.WriteLine("WELCOME TO MARS ROVER REMOTE CONTROL SYSTEM" + (char)(0174));
@@ -21,7 +24,7 @@ public class Program
             commands = Console.ReadLine();
 
             if (string.IsNullOrEmpty(commands))
-                break;
+                continue;
 
             commands = commands.ToLower();
             try

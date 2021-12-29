@@ -77,7 +77,7 @@ public class Planet
                         res += "<";
                 }
                 else // empty position
-                    res += "□";
+                    res += " ";
 
                 if (x == size - 1)
                     res += "\n";
